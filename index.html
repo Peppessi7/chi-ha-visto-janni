@@ -185,23 +185,26 @@
   .case-file.show{ display:block; }
   #page1.hide{ display:none; }
 
-  .subject-line{
-    font-size: 14px;
-    margin-bottom: 4px;
-    opacity: 0.8;
-  }
-
   .subject-name{
     font-family:'Oswald', sans-serif;
     font-size: 22px;
     font-weight: 700;
-    margin: 0 0 20px;
+    margin: 0 0 6px;
   }
 
   .last-seen{
+    font-family: 'Special Elite', monospace;
     font-size: 13px;
     opacity: 0.75;
     margin-bottom: 22px;
+  }
+
+  .not-seen-line{
+    font-family:'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    margin: 8px 0 14px;
+    opacity: 0.85;
   }
 
   .special-message{
@@ -289,10 +292,10 @@
 
   <!-- PAGE 2 -->
   <div class="folder case-file" id="page2">
-    <div class="subject-line">Testimone</div>
     <div class="subject-name" id="subjectName">—</div>
 
-    <div class="last-seen" id="lastSeenLine">Ultima volta visto: —</div>
+    <div class="last-seen" id="lastSeenLine">Hai visto l'ultima volta Janni il —.</div>
+    <div class="not-seen-line" id="notSeenLine">Non lo vedi da:</div>
 
     <div class="special-message" id="specialMessage"></div>
 
@@ -374,6 +377,7 @@
     document.getElementById('subjectName').textContent = displayNames[key];
 
     const lastSeenLine = document.getElementById('lastSeenLine');
+    const notSeenLine = document.getElementById('notSeenLine');
     const counterGrid = document.getElementById('counterGrid');
     const specialMessage = document.getElementById('specialMessage');
 
@@ -381,6 +385,7 @@
 
     if (key in specialMessages){
       lastSeenLine.style.display = 'none';
+      notSeenLine.style.display = 'none';
       counterGrid.style.display = 'none';
       specialMessage.textContent = specialMessages[key];
       specialMessage.classList.add('show');
@@ -388,11 +393,12 @@
     }
 
     lastSeenLine.style.display = '';
+    notSeenLine.style.display = '';
     counterGrid.style.display = '';
     specialMessage.classList.remove('show');
     specialMessage.textContent = '';
 
-    lastSeenLine.textContent = 'Ultima volta visto: ' + dateFormatter.format(sightings[key]);
+    lastSeenLine.textContent = 'Hai visto l\'ultima volta Janni il ' + dateFormatter.format(sightings[key]) + '.';
 
     updateCounters(sightings[key]);
     timerId = setInterval(() => updateCounters(sightings[key]), 1000);
